@@ -1,0 +1,57 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <vector>
+
+using namespace std;
+
+const int NUM_HORSES = 5;
+const int TRACK_LENGTH = 15;
+
+void advance(int horseNum, int* horses);
+void printLane(int horseNum, int* horses);
+bool isWinner(int horseNum, int* horses);
+
+void displayRace(const vector<int>& positions) {
+    for (int i = 0; i < NUM_HORSES; ++i) {
+        for (int j = 0; j < TRACK_LENGTH; ++j) {
+            if (j == positions[i])
+                cout << i;
+            else
+                cout << '.';
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
+bool raceFinished(const vector<int>& positions) {
+    for (int pos : positions) {
+        if (pos >= TRACK_LENGTH - 1) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int main() {
+    srand(time(0));
+    vector<int> positions(NUM_HORSES, 0);
+    
+    cout << "Welcome to the Horse Race! Press Enter to start the race." << endl;
+    cin.get();
+    
+    while (!raceFinished(positions)) {
+        for (int i = 0; i < NUM_HORSES; ++i) {
+            if (rand() % 2 == 1) {
+                positions[i]++;
+            }
+        }
+        displayRace(positions);
+        cout << "Press Enter for the next turn...";
+        cin.get();
+    }
+    
+    cout << "The race is over!" << endl;
+    return 0;
+}
